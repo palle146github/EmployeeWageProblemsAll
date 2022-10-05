@@ -1,9 +1,19 @@
 ﻿using System;
-namespace EmployeeWageProblem
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FinalEmployeeWageProblem
 {
+    public interface IEmployeeWageComputation
+    {
+        void addCompanyEmpWage(String CompanyName, int EMP_RATE_PER_HOUR, int NUM_OF_WORKING_DAYS, int MAX_HRS_IN_MONTH);
+        void computeEmpWage();
+    }
     public class CompanyEmpWage
     {
-        public String CompanyName;
+        public string CompanyName;
         public int EMP_RATE_PER_HOUR;
         public int NUM_OF_WORKING_DAYS;
         public int MAX_HRS_IN_MONTH;
@@ -14,22 +24,23 @@ namespace EmployeeWageProblem
             this.EMP_RATE_PER_HOUR = EMP_RATE_PER_HOUR;
             this.NUM_OF_WORKING_DAYS = NUM_OF_WORKING_DAYS;
             this.MAX_HRS_IN_MONTH = MAX_HRS_IN_MONTH;
-
+            this.totalEmpWage = 0;
         }
-        public void setTotalEmployeeWage(int totalEmpWage)
+        public void setTotalEmpWage(int totalEmpWage)
         {
             this.totalEmpWage = totalEmpWage;
+
         }
-        public String toString()
+        public string toStrig()
         {
-            return "Total Emp wage for company " + this.CompanyName + " is " + this.totalEmpWage;
+            return "Total Emp Wage for company : " + this.CompanyName + " is " + this.totalEmpWage;
         }
     }
-    public class EmployeeWageComputation
+    public class EmployeeWageComputation : IEmployeeWageComputation
     {
         public const int IS_PART_TIME = 1;
         public const int IS_FULL_TIME = 2;
-        private int noOfCompanies=0;
+        private int noOfCompanies = 0;
         private CompanyEmpWage[] companyEmpWageArray;
         public EmployeeWageComputation()
         {
@@ -42,10 +53,10 @@ namespace EmployeeWageProblem
         }
         public void computeEmpWage()
         {
-            for(int i=0;i< noOfCompanies;i++)
+            for (int i = 0; i < noOfCompanies; i++)
             {
-                companyEmpWageArray[i].setTotalEmployeeWage(this.computeEmpWage(this.companyEmpWageArray[i]));
-                Console.WriteLine(this.companyEmpWageArray[i].toString());
+                companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(this.companyEmpWageArray[i]));
+                Console.WriteLine(this.companyEmpWageArray[i].toStrig());
             }
         }
         private int computeEmpWage(CompanyEmpWage companyEmpWage)
@@ -53,9 +64,8 @@ namespace EmployeeWageProblem
             int totalworkingdays = 0;
             int totalemphours = 0;
             int emphours = 0;
-            while (totalworkingdays < companyEmpWage.NUM_OF_WORKING_DAYS
-                && totalemphours <= companyEmpWage.MAX_HRS_IN_MONTH)
-                {
+            while (totalworkingdays < companyEmpWage.NUM_OF_WORKING_DAYS && totalemphours <= companyEmpWage.MAX_HRS_IN_MONTH)
+            {
                 totalworkingdays++;
                 Random random = new Random();
                 int empcheck = random.Next(0, 3);
@@ -75,8 +85,8 @@ namespace EmployeeWageProblem
                 Console.WriteLine(companyEmpWage.CompanyName + " Day " + totalworkingdays + " Hours " + emphours);
             }
             return totalemphours * companyEmpWage.EMP_RATE_PER_HOUR;
-      }
-        
+        }
+
         public static void Main(string[] args)
         {
             EmployeeWageComputation employeeWageComputation = new EmployeeWageComputation();
@@ -86,7 +96,5 @@ namespace EmployeeWageProblem
             employeeWageComputation.computeEmpWage();
             Console.ReadLine();
         }
-        
-
     }
 }
