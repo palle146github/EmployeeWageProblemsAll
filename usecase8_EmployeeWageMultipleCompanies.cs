@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace usecase5
+namespace EmployeeWageProblem
 {
     public class Program
     {
-        public const int EMP_RATE_PER_HOUR = 20;
         public const int IS_PART_TIME = 1;
         public const int IS_FULL_TIME = 2;
-        public const int NUM_OF_WORKING_DAYS = 20;
-        public const int MAX_HRS_IN_MONTH = 100;
-        public static void Main(string[] args)
+        public static int CalculateTotalWage(String companyName, int EMP_RATE_PER_HOUR, int NUM_OF_WORKING_DAYS, int MAX_HRS_IN_MONTH)
         {
             int totalEmpWage;
             int totalemphours = 0;
             int totalworkingdays = 0;
-            while(totalemphours<= MAX_HRS_IN_MONTH && totalworkingdays< NUM_OF_WORKING_DAYS)
+            int emphours = 0;
+            while (totalemphours <= MAX_HRS_IN_MONTH && totalworkingdays < NUM_OF_WORKING_DAYS)
             {
                 totalworkingdays++;
                 Random random = new Random();
@@ -25,22 +23,26 @@ namespace usecase5
                 switch (empcheck)
                 {
                     case IS_FULL_TIME:
-                        totalemphours = 8;
+                        emphours = 8;
                         break;
                     case IS_PART_TIME:
-                        totalemphours = 4;
+                        emphours = 4;
                         break;
                     default:
-                        totalemphours = 0;
+                        emphours = 0;
                         break;
                 }
-
-                totalemphours = totalemphours + totalemphours;
-                Console.WriteLine("Day " + totalworkingdays + " Hours "+ totalemphours);
-
+                totalemphours += emphours;
+                Console.WriteLine(companyName + " Day " + totalworkingdays + " Hours " + emphours);
             }
             totalEmpWage = totalemphours * EMP_RATE_PER_HOUR;
-            Console.WriteLine("Employee Total Wage==> " + totalEmpWage);
+            Console.WriteLine("\nEmployee Total Wage for Company :" + totalEmpWage + "\n");
+            return totalEmpWage;
+        }
+        public static void Main(string[] args)
+        {
+            CalculateTotalWage("Amazon", 40, 15, 200);
+            CalculateTotalWage("BigBazar", 20, 20, 100);
             Console.ReadLine();
         }
     }
