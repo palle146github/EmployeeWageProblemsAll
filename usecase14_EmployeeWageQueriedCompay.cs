@@ -10,6 +10,7 @@ namespace FinalEmployeeWageProblem
     {
         void addCompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth);
         void computeEmpWage();
+        int getTotalWage(string company);
 
     }
     public class CompanyEmpWage
@@ -21,11 +22,11 @@ namespace FinalEmployeeWageProblem
         public int totalEmpWage;
         public CompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
         {
-            this.company = company;
-            this.empRatePerHour = empRatePerHour;
-            this.numOfWorkingDays = numOfWorkingDays;
-            this.maxHoursPerMonth = maxHoursPerMonth;
-            this.totalEmpWage = 0;
+            this.company= company;
+            this.empRatePerHour= empRatePerHour;
+            this.numOfWorkingDays= numOfWorkingDays;
+            this.maxHoursPerMonth= maxHoursPerMonth;
+            this.totalEmpWage=0;
         }
         public void setTotalEmpWage(int totalEmpWage)
         {
@@ -57,7 +58,7 @@ namespace FinalEmployeeWageProblem
         }
         public void computeEmpWage()
         {
-            foreach (CompanyEmpWage companyEmpWage in this.companyEmpWageList)
+            foreach(CompanyEmpWage companyEmpWage in this.companyEmpWageList)
             {
                 companyEmpWage.setTotalEmpWage(this.computeEmpWage(companyEmpWage));
                 Console.WriteLine(companyEmpWage.toStrig());
@@ -68,7 +69,8 @@ namespace FinalEmployeeWageProblem
             int totalworkingdays = 0;
             int totalemphours = 0;
             int emphours = 0;
-            while (totalworkingdays < companyEmpWage.numOfWorkingDays && totalemphours <= companyEmpWage.maxHoursPerMonth)
+            while (totalworkingdays < companyEmpWage.numOfWorkingDays
+                && totalemphours <= companyEmpWage.maxHoursPerMonth)
             {
                 totalworkingdays++;
                 Random random = new Random();
@@ -90,14 +92,9 @@ namespace FinalEmployeeWageProblem
             }
             return totalemphours * companyEmpWage.empRatePerHour;
         }
-        void printTotalEmpWages()
+        public int getTotalWage(string company)
         {
-            Console.WriteLine("\nThe companies and the total employee wages are:");
-            foreach(String CompanyName in companyToEmpWageMap.Keys)
-            {
-                Console.WriteLine(companyToEmpWageMap[CompanyName].toStrig());
-            }
-            
+            return this.companyToEmpWageMap[company].totalEmpWage;
         }
 
         public static void Main(string[] args)
@@ -107,7 +104,7 @@ namespace FinalEmployeeWageProblem
             employeeWageBuilder.addCompanyEmpWage("Google", 5, 40, 170);
             employeeWageBuilder.addCompanyEmpWage("Apple", 9, 10, 70);
             employeeWageBuilder.computeEmpWage();
-            employeeWageBuilder.printTotalEmpWages();
+            Console.WriteLine("Total Wage for Microsoft company : " + employeeWageBuilder.getTotalWage("Microsoft"));
             Console.ReadLine();
         }
 
